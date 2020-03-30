@@ -1,0 +1,31 @@
+<form [formGroup]="storeForm">
+  <table>
+    <tr>
+      <td>
+
+          <input nbInput formControlName="firstName" placeholder="First Name">
+
+      </td>
+      <td>
+
+          <input nbInput formControlName="lastName" placeholder="Last Name">
+
+      </td>
+      <td>
+
+          <input nbInput formControlName="position" placeholder="Position">
+
+      </td>
+      <td>
+
+          <input nbInput formControlName="number" placeholder="Number">
+
+      </td>
+      <td>
+        <!-- emit delete event up w/ index of player -->
+        <button (click)="delete()">Delete</button>
+      </td>
+    </tr>
+  </table>
+  <pre>Player Form Status: <span class="status">{{storeForm.status}}</span></pre>
+</form>
