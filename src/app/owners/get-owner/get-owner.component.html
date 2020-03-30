@@ -1,7 +1,7 @@
 <nb-card>
   <nb-card-header>
     <div class="row text-center">
-      <h3>Store Owners</h3>
+      <h3 [ngModel]="ID">Store Owner:{{owner.OwnersLastName}}</h3>
     </div>
   </nb-card-header>
   <nb-card-body>
@@ -11,10 +11,10 @@
   </nb-card-body>
   <nb-card-footer>
     <p>Store:</p>
-    <button status="success" (click)="addStore()">Add Store</button>
-      <ul>
+    <button status="success" (click)="getCurrentOwner(ID)">Add Store</button>
+      <!--<ul>
         <li *ngFor="let store o stores?.controls; let i = index">
         </li>
-      </ul>
+      </ul>-->
   </nb-card-footer>
 </nb-card>

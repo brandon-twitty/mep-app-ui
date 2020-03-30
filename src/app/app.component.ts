@@ -4,6 +4,7 @@ import {Owner} from "./owners/create-owner/_models/owner";
 import {OwnerService} from "./shared/services/owner.service";
 import {HttpClient} from "@angular/common/http";
 import {OwnersDataSource} from "./owners/OwnersDataSource";
+import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -14,13 +15,16 @@ export class AppComponent implements OnInit{
   owners: Owner[];
   selectedOwner: Owner = new Owner();
   sizes: NbComponentSize[] = ['medium'];
+  fullname: string;
 
-  constructor(public ownersService: OwnerService,  private http: HttpClient) {
+  constructor(public ownersService: OwnerService,  private http: HttpClient, private router: Router) {
 
   }
+
+
   ngOnInit(): void {
     this.getOwners();
-
+    this.fullname = this.selectedOwner.getFullName();
   }
   getOwners() {
     this.owners = [];
@@ -29,17 +33,17 @@ export class AppComponent implements OnInit{
       this.owners = data;
     });
   }
-  onChangeObj(newOwner){
-    console.log(newOwner);
-    this.selectedOwner = newOwner;
-
+  onChangeObj(data){
+    this.selectedOwner = data;
+    console.log(this.selectedOwner);
     return this.selectedOwner;
   }
   title = 'med-app';
   items: NbMenuItem[] = [
     {
       title: 'Stores',
-      link: 'list-stores-by-owner',
+      link: 'list-stores/',
+      queryParams: {storeOwnerId: this.selectedOwner.ID},
       icon: 'person-outline'
     },
     {
@@ -53,8 +57,8 @@ export class AppComponent implements OnInit{
       icon: 'person-outline'
     },
     {
-      title: 'dashboard',
-      link: 'dashboard',
+      title: 'Get All Owners',
+      link: 'list-owners',
       icon: 'person-outline'
     }, {
       title: 'dashboard',

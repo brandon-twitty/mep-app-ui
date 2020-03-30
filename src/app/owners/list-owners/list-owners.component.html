@@ -32,7 +32,7 @@
                     <button nbButton outline status="primary" [routerLink]="['/get-owners-stores' ,o.ID]" class="btn btn-sm action-button">
                       <i class="fa fa-building"></i>Stores
                     </button>
-                    <button nbButton outline status="info" [routerLink]="['/get-owners', o.ID]" class="btn btn-danger btn-sm action-button">
+                    <button nbButton outline status="info" routerLink="['/get-owner/', o.ID]" class="btn btn-danger btn-sm action-button">
                       <i class="fa fa-info-circle"></i>  Details
                     </button>
                     <button (click)="deleteOwner(o.ID)" nbButton status="danger">

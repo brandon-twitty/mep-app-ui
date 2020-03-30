@@ -17,10 +17,9 @@
 
   <nb-sidebar>
     <h4>Select Owner</h4>
-    <nb-select [ngModel]="selectedOwner"
-               (ngModelChange)="onChangeObj($event)" name="owners" >
-      <nb-option  *ngFor="let o of owners" [ngValue]="o">
-        {{ o.OwnersFirstName }}
+    <nb-select [ngModel]="selectedOwner" (ngModelChange)="onChangeObj(selectedOwner)">
+      <nb-option  *ngFor="let owner of owners; let i = index" [value]="owners[i].ID">
+        {{ owners[i].OwnersLastName + owners[i].OwnersLastName}}
       </nb-option>
     </nb-select>
       <nb-menu tag="menu" [items]="items">

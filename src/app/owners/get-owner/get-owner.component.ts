@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {Owner} from '../create-owner/_models/owner';
 import {OwnerService} from '../../shared/services/owner.service';
 import {ActivatedRoute, Router} from "@angular/router";
@@ -9,27 +9,34 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrls: ['./get-owner.component.scss']
 })
 export class GetOwnerComponent implements OnInit {
-  owners: Owner[];
-  owner: any = {};
+  owner: Owner ;
+  //currentOwner = null;
   ownersStores: any [];
-  selectedOwner = this.owners[1];
-  constructor(public ownersService: OwnerService, private route: ActivatedRoute, private router: Router) { }
+  ID: number =null;
+  private currentOwner: any;
+
+  constructor(public ownersService: OwnerService, @Inject("") public storeService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.ownersService.getOwnerById(params['ID']).subscribe(res => {
-        this.owner = res;
-      })
-    })
-    this.route.params.subscribe(params =>) {
-      this.ownersService.getStoresByOwnerId(params['ID']).subscribe(res =>) {
-        this.ownersStores = res;
-      }
-    }
+    this.owner = new Owner();
+    this.ID = this.route.snapshot.params['ID'];
+    this.getCurrentOwner(this.route.snapshot.paramMap.get('ID'));
+    this.owner.getFullName();
+
+    this.ownersService.getOwnerById(this.ID)
+      .subscribe(owner => {
+        console.log(owner);
+        this.owner = owner;
+      }, error => console.log(error))
+  }
+  getCurrentOwner(ID){
+    this.ownersService.getOwnerById(ID)
+      .subscribe(
+        data => {
+          this.owner = data;
+          console.log(data);
+        }
+      )
   }
 
-  onChangeObj(newOwner) {
-    console.log(newOwner);
-    this.selectedOwner = newOwner;
-  }
 }

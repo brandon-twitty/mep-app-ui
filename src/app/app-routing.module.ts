@@ -37,7 +37,7 @@ const routes: Routes = [
     component: EditOwnersComponent
   },
   {
-    path: 'get-owner/:id',
+    path: 'get-owner/:ID',
     component: GetOwnerComponent
   },
   {
@@ -57,7 +57,7 @@ const routes: Routes = [
     component: GetStoreComponent
   },
   {
-    path: 'list-stores',
+    path: 'list-stores/:storeOwnerId',
     component: ListStoresComponent
   }
 ];

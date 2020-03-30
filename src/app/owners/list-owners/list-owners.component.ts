@@ -7,6 +7,7 @@ import {Component, Input, OnInit} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {NbWindowService} from "@nebular/theme";
 import {CreateOwnerComponent} from "../create-owner/create-owner.component";
+import {Router} from "@angular/router";
 
 
 interface TreeNode<T> {
@@ -26,7 +27,7 @@ interface FSEntry {
   styleUrls: ['./list-owners.component.scss']
 })
 export class ListOwnersComponent implements OnInit {
-  constructor(public ownersService: OwnerService,  private http: HttpClient, private windowService: NbWindowService) {
+  constructor(public ownersService: OwnerService,  private http: HttpClient, private windowService: NbWindowService, private route: Router) {
 
   }
 
@@ -91,6 +92,10 @@ export class ListOwnersComponent implements OnInit {
     console.log(newOwner);
     this.selectedOwner = newOwner;
     return this.selectedOwner;
+  }
+  ownerDetails(ID: number){
+    this.route.navigate(['details', ID]).then(r =>
+    console.log(r));
   }
 
 }

@@ -54,12 +54,12 @@ export class CreateOwnerComponent implements OnInit, OnDestroy {
       raPhoneNumber: ['']
     });
   }*/
-  addStore() {
+  /*addStore() {
     this.ownerService.addStore();
   }
   deleteStore(index: number) {
     this.ownerService.deleteStore(index);
-  }
+  }*/
 
   addAgent(): void {
     this.addAgentForm = !this.addAgentForm;

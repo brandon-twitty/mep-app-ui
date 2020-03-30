@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {BehaviorSubject, Observable, of} from 'rxjs';
+import {BehaviorSubject, Observable, of, throwError} from 'rxjs';
 import {Owner} from '../../owners/create-owner/_models/owner';
-import {catchError, tap} from 'rxjs/operators';
+import {catchError, map, tap} from 'rxjs/operators';
 import {ApiResponse} from '../models/api.response';
 import {OwnerForm} from '../../owners/create-owner/_models/owner-form.model';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
@@ -24,10 +24,9 @@ export class OwnerService {
 
   private ownerForm: BehaviorSubject<FormGroup | undefined> =
     new BehaviorSubject(this.fb.group(
-      new OwnerForm(new Owner('', '', 0, 0, '', '', 0,
-        0, 0, [], [], []))
-    ));
+      new OwnerForm(new Owner())));
   ownerForm$: Observable<FormGroup> = this.ownerForm.asObservable();
+
   addStore() {
     const currentOwner = this.ownerForm.getValue();
     const currentStores = currentOwner.get('stores') as FormArray;
@@ -43,8 +42,12 @@ export class OwnerService {
   public  getOwners(): Observable<any> {
     return this.http.get(this.ownerApi + '/list-owners');
   }
-  public getOwnerById(ID: number) {
-    return this.http.get(this.ownerApi + '/get-owner/${ID}');
+
+  public getOwnerById(ID): Observable<Owner> {
+    return this.http.get<Owner>(this.ownerApi + '/get-owner/${ID}').pipe(
+      catchError(()=> throwError('Owner not found'))
+    )
+
   }
   public createOwner(owner: Owner) {
     return this.http.post(`${this.ownerApi}/create-owner/${owner.ID}`, owner, httpOptions);
@@ -52,14 +55,14 @@ export class OwnerService {
   deleteOwner(ID) {
     return this.http.get(`${this.ownerApi}/delete-owner/${ID}`, httpOptions );
   }
-  deleteStore(i: number) {
+  /*deleteStore(i: number) {
     const currentOwner = this.ownerForm.getValue();
     const currentStores = currentOwner.get('stores') as FormArray;
 
     currentStores.removeAt(i);
 
     this.ownerForm.next(currentOwner);
-  }
+  }*/
 
   /*public firstPage: string = '';
   public prevPage: string = '';

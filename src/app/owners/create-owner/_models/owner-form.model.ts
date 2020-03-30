@@ -9,9 +9,9 @@ export class OwnerForm {
   OwnersPaymentMethod = new FormControl();
   OwnersCommissionRate = new FormControl();
   agentId = new FormControl();
-  agents = new FormArray([]);
-  stores = new FormArray([]);
-  patients = new FormArray([]);
+  //agents = new FormArray([]);
+ // stores = new FormArray([]);
+  //patients = new FormArray([]);
 
   constructor(owner: Owner) {
       if (owner.OwnersFirstName) {
@@ -35,9 +35,9 @@ export class OwnerForm {
       if (owner.agentId) {
         this.agentId.setValue(owner.agentId);
       }
-      if (owner.patients) {
+      /*if (owner.patients) {
         this.patients.setValue(owner.patients);
-      }
+      }*/
 
   }
 }
