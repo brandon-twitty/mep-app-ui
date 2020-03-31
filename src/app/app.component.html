@@ -17,16 +17,32 @@
 
   <nb-sidebar>
     <h4>Select Owner</h4>
-    <nb-select [ngModel]="selectedOwner" (ngModelChange)="onChangeObj(selectedOwner)">
-      <nb-option  *ngFor="let owner of owners; let i = index" [value]="owners[i].ID">
-        {{ owners[i].OwnersLastName + owners[i].OwnersLastName}}
+    <nb-select [ngModel]="selectedOwner" ngSwitch="getOwnerDetails" (ngModelChange)="onChangeObj($event)">
+      <nb-option  *ngFor="let owner of allOwners; let i = index" [value]="allOwners[i]">
+        {{allOwners[i].OwnersLastName +  allOwners[i].OwnersLastName}}
       </nb-option>
     </nb-select>
-      <nb-menu tag="menu" [items]="items">
-      </nb-menu>
+    <div style="margin-top: 15px" class="list-group" role="tablist">
+      <a class="list-group-item list-group-item-action" icon="person-outline"  (click)="gotoOwnersStores(selectedOwner.ID)" role="tab">Stores</a>
+      <a class="list-group-item list-group-item-action" data-toggle="list" href="#profile" role="tab">Reports</a>
+      <a class="list-group-item list-group-item-action" data-toggle="list" href="#messages" role="tab">Appointments</a>
+      <a class="list-group-item list-group-item-action" data-toggle="list" href="#settings" role="tab">Settings</a>
+    </div>
+        <!--<ul class="menu-items">
+          <li nbMenuItem class="menu-item">fuck you</li>
+
+
+        </ul>
+-->
+    <ul>
+      <li>
+
+      </li>
+    </ul>
 
   </nb-sidebar>
   <nb-layout-column>
+
     <router-outlet></router-outlet>
   </nb-layout-column>
   <nb-layout-footer>
