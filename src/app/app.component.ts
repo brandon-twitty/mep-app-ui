@@ -1,10 +1,11 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {NbComponentSize, NbMenuItem} from "@nebular/theme";
+import {ChangeDetectionStrategy, Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {Owner} from "./owners/create-owner/_models/owner";
 import {OwnerService} from "./shared/services/owner.service";
 import {HttpClient} from "@angular/common/http";
 import {OwnersDataSource} from "./owners/OwnersDataSource";
 import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router} from "@angular/router";
+import {MatSidenav} from "@angular/material/sidenav";
+
 
 @Component({
   selector: 'app-root',
@@ -13,9 +14,10 @@ import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Route
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit{
+  opened = true;
+  @ViewChild('sidenav') sidenav: MatSidenav;
   allOwners: Owner[];
   selectedOwner: Owner = new Owner();
-  sizes: NbComponentSize[] = ['medium'];
   fullname: string;
   storeOwnerId: number;
   constructor(public ownersService: OwnerService,  private http: HttpClient, private router: Router) {
@@ -23,12 +25,39 @@ export class AppComponent implements OnInit{
   }
 
 
-  ngOnInit(): void {
-    this.getOwners();
-    //this.fullname = this.selectedOwner.getFullName();
+  ngOnInit() {
 
+    console.log(window.innerWidth);
+    if (window.innerWidth < 768) {
+      this.sidenav.fixedTopGap = 55;
+      this.opened = false;
+    } else {
+      this.sidenav.fixedTopGap = 55;
+      this.opened = true;
+    }
   }
-  getOwners() {
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    if (event.target.innerWidth < 768) {
+      this.sidenav.fixedTopGap = 55;
+      this.opened = false;
+    } else {
+      this.sidenav.fixedTopGap = 55;
+      this.opened = true;
+    }
+  }
+
+  isBiggerScreen() {
+    const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    if (width < 768) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
+ /* getOwners() {
     this.allOwners = [];
     this.ownersService.getOwners().subscribe((data: []) => {
       console.log(data);
@@ -51,7 +80,7 @@ export class AppComponent implements OnInit{
   gotoOwnersStores(storeOwnerId: any){
     this.router.navigate(['/list-stores/', storeOwnerId]).then(r =>
     console.log('this.selectedOwner'));
-  }
+  }*/
 
 
-}
+

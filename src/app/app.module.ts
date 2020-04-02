@@ -1,14 +1,10 @@
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
 import { IntroComponent } from './intro/intro.component';
 import { ScheduleComponent } from './schedule/schedule.component';
-
 import { CreateOwnerComponent } from './owners/create-owner/create-owner.component';
 import { ListOwnersComponent } from './owners/list-owners/list-owners.component';
 import { EditOwnersComponent } from './owners/edit-owners/edit-owners.component';
-import { GetOwnerComponent } from './owners/get-owner/get-owner.component';
 import { EditStoreComponent } from './stores/edit-store/edit-store.component';
 import { ListStoresComponent } from './stores/list-stores/list-stores.component';
 import { AddStoreComponent } from './stores/add-store/add-store.component';
@@ -24,19 +20,12 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import {CommonModule} from "@angular/common";
-
-import {NbEvaIconsModule} from "@nebular/eva-icons";
-import {
-  NbActionsModule,
-  NbButtonModule,
-  NbCardModule, NbContextMenuModule,
-  NbInputModule,
-  NbLayoutModule, NbMenuModule, NbSelectModule, NbSidebarModule,
-  NbStepperModule,
-  NbThemeModule, NbTreeGridModule, NbWindowModule
-} from "@nebular/theme";
-import { SideBarComponent } from './side-bar/side-bar.component';
 import {config} from "rxjs";
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { GetOwnerDetailsComponent } from './owners/get-owner-details/get-owner-details.component';
+
+import {OwnersDataSource} from "./owners/OwnersDataSource";
+import {AngularMaterialModule} from "./material/material.module";
 
 @NgModule({
   declarations: [
@@ -46,40 +35,29 @@ import {config} from "rxjs";
     CreateOwnerComponent,
     ListOwnersComponent,
     EditOwnersComponent,
-    GetOwnerComponent,
     EditStoreComponent,
     ListStoresComponent,
     AddStoreComponent,
     GetStoreComponent,
     AddAgentComponent,
     ListAgentComponent,
-    SideBarComponent
+    DashboardComponent,
+    GetOwnerDetailsComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    AngularMaterialModule,
     CommonModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    NbThemeModule.forRoot({ name: 'default' }),
-    NbLayoutModule,
-    NbEvaIconsModule,
-    NbStepperModule,
-    NbCardModule,
-    NbButtonModule,
-    NbInputModule,
-    NbSelectModule,
-    NbTreeGridModule,
-    NbContextMenuModule,
-    NbActionsModule,
-    NbSidebarModule.forRoot(),
-    NbMenuModule.forRoot(),
-    NbWindowModule.forRoot(),
+    ReactiveFormsModule
 
   ],
-  providers: [OwnerService, PatientService, StoreService],
+  providers: [OwnerService, PatientService, StoreService, OwnersDataSource],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

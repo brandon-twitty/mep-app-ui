@@ -3,76 +3,39 @@ import {Owner} from '../create-owner/_models/owner';
 import {OwnerService} from '../../shared/services/owner.service';
 
 import {OwnersDataSource} from '../OwnersDataSource';
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, ElementRef, Input, OnInit, ViewChild} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {NbWindowService} from "@nebular/theme";
 import {CreateOwnerComponent} from "../create-owner/create-owner.component";
 import {Router} from "@angular/router";
+import {MatSort} from "@angular/material/sort";
+import {MatPaginator} from "@angular/material/paginator";
 
 
-interface TreeNode<T> {
-  dataTest: T;
-  children?: TreeNode<T>[];
-  expanded?: boolean;
-}
-interface FSEntry {
-  OwnersFirstName: string
-  OwnersPhoneNumber: string;
-  OwnersEmailAddress: string;
-  BookedAppointments?: number;
-}
+
 @Component({
   selector: 'app-list-owners',
   templateUrl: './list-owners.component.html',
   styleUrls: ['./list-owners.component.scss']
 })
 export class ListOwnersComponent implements OnInit {
-  constructor(public ownersService: OwnerService,  private http: HttpClient, private windowService: NbWindowService, private route: Router) {
+  constructor(public ownersService: OwnerService,  private http: HttpClient, private router: Router) {
 
   }
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild('filter',  {static: true}) filter: ElementRef;
 
   @Input() owner: Owner[];
+  ID: any;
   owners: Owner[];
   selectedOwner: Owner = new Owner();
-  displayedColumns: string[] = ['ownersName', 'ownersPhone', 'ownersEmail', 'bookedApt'];
+  displayedColumns = ['id', 'title', 'state', 'url', 'created_at', 'updated_at', 'actions'];
   dataSource: OwnersDataSource;
-  openWindow() {
-    this.windowService.open(CreateOwnerComponent, {title: `Create New Owner`});
-  }
-
-  /*data: TreeNode<FSEntry>[] = [
-    {
-      data: {ownersFirstName: this.owner.OwnersFirstName , OwnersPhoneNumber: '1.8 MB', BookedAppointments: 5, OwnersEmailAddress: 'dir'},
-    }
-  ];
-  private dataTest: TreeNode<IOwner>[]= [
-    {
-      dataTest: {IOwner}
-    }
-  ];*/
-  customColumn = 'Owners Name';
-  customColumnTwo = 'Phone Number';
-  columnThree = 'Owners Email';
-  columnFour = 'Booked Appointments';
-  defaultColumns = [ 'OwnersPhoneNumber', 'OwnersEmailAddress', 'BookedAppointments' ];
-  allColumns = [ this.displayedColumns ];
-
-
-  sortColumn = '';
-
-  mapTree = new Map();
 
   ngOnInit(): void {
     this.getOwners();
     this.dataSource = new OwnersDataSource(this.ownersService);
 
-  }
-
-
-  getShowOn(index: number) {
-    const minWithForMultipleColumns = 400;
-    const nextColumnStep = 100;
-    return minWithForMultipleColumns + (nextColumnStep * index);
   }
 
   getOwners() {
@@ -94,7 +57,7 @@ export class ListOwnersComponent implements OnInit {
     return this.selectedOwner;
   }
   ownerDetails(ID: number){
-    this.route.navigate(['details', ID]).then(r =>
+    this.router.navigate(['details', ID]).then(r =>
     console.log(r));
   }
 

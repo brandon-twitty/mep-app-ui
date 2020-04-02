@@ -1,51 +1,36 @@
-<nb-layout>
+<mat-toolbar color="primary">
+  <div>Get Legal Now</div>
+  <span class="nav-tool-items">
+    <mat-icon (click)="sidenav.toggle()" class="hamburger">menu</mat-icon>
+  </span>
 
-    <nb-layout-header fixed>
-
-        <div class="row">
-          <nb-actions class="float-right">
-
-            <nb-action icon="power-outline"></nb-action>
-            <nb-action icon="person-outline"></nb-action>
-            <nb-action icon="home-outline" routerLink="/"></nb-action>
-            <nb-action icon="search-outline"></nb-action>
-
-          </nb-actions>
-        </div>
-
-    </nb-layout-header>
-
-  <nb-sidebar>
-    <h4>Select Owner</h4>
-    <nb-select [ngModel]="selectedOwner" ngSwitch="getOwnerDetails" (ngModelChange)="onChangeObj($event)">
+  <!-- select owner dropdown -->
+  <span class="example-fill-remaining-space">
+     <!--<nb-select [ngModel]="selectedOwner" ngSwitch="getOwnerDetails" (ngModelChange)="onChangeObj($event)">
       <nb-option  *ngFor="let owner of allOwners; let i = index" [value]="allOwners[i]">
         {{allOwners[i].OwnersLastName +  allOwners[i].OwnersLastName}}
       </nb-option>
-    </nb-select>
-    <div style="margin-top: 15px" class="list-group" role="tablist">
-      <a class="list-group-item list-group-item-action" icon="person-outline"  (click)="gotoOwnersStores(selectedOwner.ID)" role="tab">Stores</a>
-      <a class="list-group-item list-group-item-action" data-toggle="list" href="#profile" role="tab">Reports</a>
-      <a class="list-group-item list-group-item-action" data-toggle="list" href="#messages" role="tab">Appointments</a>
-      <a class="list-group-item list-group-item-action" data-toggle="list" href="#settings" role="tab">Settings</a>
-    </div>
-        <!--<ul class="menu-items">
-          <li nbMenuItem class="menu-item">fuck you</li>
+    </nb-select>-->
+  </span>
 
+  <span>Right Aligned Text</span>
+</mat-toolbar>
 
-        </ul>
--->
-    <ul>
-      <li>
+<mat-sidenav-container>
+  <!-- Sidenav -->
+  <mat-sidenav #sidenav [mode]="isBiggerScreen() ? 'over' : 'side'" [(opened)]="opened" [fixedInViewport]="true"
+               [fixedTopGap]>
+    <mat-nav-list>
+      <a mat-list-item routerLinkActive="active" routerLink="/add-student">
+        <mat-icon>add</mat-icon> Add Student
+      </a>
+      <a mat-list-item routerLinkActive="active" routerLink="/students-list">
+        <mat-icon>format_list_bulleted</mat-icon> View Students
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
 
-      </li>
-    </ul>
-
-  </nb-sidebar>
-  <nb-layout-column>
-
-    <router-outlet></router-outlet>
-  </nb-layout-column>
-  <nb-layout-footer>
-    Weed
-  </nb-layout-footer>
-</nb-layout>
+  <mat-sidenav-content>
+      <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
