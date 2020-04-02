@@ -9,19 +9,22 @@ import {Owner} from "../create-owner/_models/owner";
   styleUrls: ['./get-owner-details.component.scss']
 })
 export class GetOwnerDetailsComponent implements OnInit {
-  ownerId: any;
-  owner: Owner;
+  ID: any;
+  ownerData: any = [];
 
   constructor(private ownerService: OwnerService, private router: Router, private activeRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.ownerId = this.activeRoute.snapshot.params['id'];
-    this.loadOwnerDetails(this.ownerId)
+   this.activeRoute.params.subscribe(params => {
+     this.ID = params;
+     console.log(params)
+   });
+    this.loadOwnerDetails(this.ID)
   }
-  loadOwnerDetails(ownerId) {
-    this.ownerService.getOwnerById(ownerId).subscribe(owner => {
-      console.log(owner);
-      this.owner = owner;
+  loadOwnerDetails(ID) {
+    this.ownerService.getOwnerById(ID).subscribe(data => {
+      console.log(data);
+      this.ownerData = data;
     })
   }
   navigation(link){

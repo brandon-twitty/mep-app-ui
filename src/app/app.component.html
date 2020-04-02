@@ -1,9 +1,10 @@
 <mat-toolbar color="primary">
-  <div>Get Legal Now</div>
-  <span class="nav-tool-items">
-    <mat-icon (click)="sidenav.toggle()" class="hamburger">menu</mat-icon>
+   <span class="nav-tool-items">
+     <button mat-icon-button>
+        <mat-icon (click)="sidenav.toggle()" class="hamburger">menu</mat-icon>
+     </button>
   </span>
-
+  <div>Get Legal Now</div>
   <!-- select owner dropdown -->
   <span class="example-fill-remaining-space">
      <!--<nb-select [ngModel]="selectedOwner" ngSwitch="getOwnerDetails" (ngModelChange)="onChangeObj($event)">
@@ -12,25 +13,24 @@
       </nb-option>
     </nb-select>-->
   </span>
-
-  <span>Right Aligned Text</span>
+  <span class="left">Right Aligned Text</span>
 </mat-toolbar>
 
-<mat-sidenav-container>
+<mat-sidenav-container class="mat-sidenav-container">
   <!-- Sidenav -->
-  <mat-sidenav #sidenav [mode]="isBiggerScreen() ? 'over' : 'side'" [(opened)]="opened" [fixedInViewport]="true"
-               [fixedTopGap]>
+  <mat-sidenav #sidenav [(opened)]="opened" >
     <mat-nav-list>
       <a mat-list-item routerLinkActive="active" routerLink="/add-student">
         <mat-icon>add</mat-icon> Add Student
       </a>
-      <a mat-list-item routerLinkActive="active" routerLink="/students-list">
-        <mat-icon>format_list_bulleted</mat-icon> View Students
+      <a mat-list-item routerLinkActive="active" routerLink="/list-owners">
+        <mat-icon>format_list_bulleted</mat-icon> View Owners
       </a>
     </mat-nav-list>
   </mat-sidenav>
 
-  <mat-sidenav-content>
-      <router-outlet></router-outlet>
+  <mat-sidenav-content style="margin-left: 250px;">
+
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

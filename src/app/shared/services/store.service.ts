@@ -18,7 +18,7 @@ export class StoreService {
   public createStore(store: Store) {
     return this.http.post(`${this.storeApi}/create-convenience-store/${store.ID}`, store, httpOptions);
   }
-  public getStoreByOwner(storeOwnerId: number): Observable<Store> {
+  public getStoreByOwner(storeOwnerId): Observable<Store> {
     return this.http.get<Store>(`${this.storeApi}/get-stores-owner/${storeOwnerId}`).pipe(
       catchError(() => throwError("Store not Found"))
     )

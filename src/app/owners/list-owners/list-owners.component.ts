@@ -9,6 +9,7 @@ import {CreateOwnerComponent} from "../create-owner/create-owner.component";
 import {Router} from "@angular/router";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
+import {MatTableDataSource} from "@angular/material/table";
 
 
 
@@ -18,23 +19,33 @@ import {MatPaginator} from "@angular/material/paginator";
   styleUrls: ['./list-owners.component.scss']
 })
 export class ListOwnersComponent implements OnInit {
-  constructor(public ownersService: OwnerService,  private http: HttpClient, private router: Router) {
 
-  }
+
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild('filter',  {static: true}) filter: ElementRef;
 
   @Input() owner: Owner[];
   ID: any;
+  OwnerData: any = [];
+  dataSource: MatTableDataSource<Owner>;
   owners: Owner[];
   selectedOwner: Owner = new Owner();
-  displayedColumns = ['id', 'title', 'state', 'url', 'created_at', 'updated_at', 'actions'];
-  dataSource: OwnersDataSource;
-
+  displayedColumns = ['ID', 'OwnersFirstName', 'OwnersLastName', 'OwnersPhoneNumber', 'OwnersEmailAddress', 'action'];
+  ownerDataSource: OwnersDataSource;
+  constructor(public ownersService: OwnerService,  private http: HttpClient, private router: Router) {
+    this.ownersService.getOwners().subscribe(data => {
+      this.OwnerData = data;
+      this.dataSource = new MatTableDataSource<Owner>(this.OwnerData);
+      setTimeout(()=> {
+        this.dataSource.paginator = this.paginator;
+      }, 0)
+      }
+    )
+  }
   ngOnInit(): void {
     this.getOwners();
-    this.dataSource = new OwnersDataSource(this.ownersService);
+    this.ownerDataSource = new OwnersDataSource(this.ownersService);
 
   }
 
@@ -44,6 +55,16 @@ export class ListOwnersComponent implements OnInit {
       console.log(data);
       this.owners = data;
     });
+  }
+  gotoOwnerDetails(url, id){
+    this.router.navigate([url, id]).then((e)=> {
+      if(e) {
+        console.log('navigation success');
+      } else {
+        console.log('navigation failed')
+      }
+    })
+
   }
   deleteOwner(ID){
     this.ownersService.deleteOwner(ID).subscribe(res => {

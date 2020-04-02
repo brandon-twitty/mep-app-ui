@@ -26,6 +26,10 @@ import { GetOwnerDetailsComponent } from './owners/get-owner-details/get-owner-d
 
 import {OwnersDataSource} from "./owners/OwnersDataSource";
 import {AngularMaterialModule} from "./material/material.module";
+import {SidenavService} from "./shared/sidenav.service";
+import { SidenavComponent } from './sidenav/sidenav.component';
+import { LeftSidenavComponent } from './left-sidenav/left-sidenav.component';
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
   declarations: [
@@ -42,7 +46,9 @@ import {AngularMaterialModule} from "./material/material.module";
     AddAgentComponent,
     ListAgentComponent,
     DashboardComponent,
-    GetOwnerDetailsComponent
+    GetOwnerDetailsComponent,
+    SidenavComponent,
+    LeftSidenavComponent
   ],
   imports: [
     BrowserModule,
@@ -54,10 +60,11 @@ import {AngularMaterialModule} from "./material/material.module";
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatExpansionModule
 
   ],
-  providers: [OwnerService, PatientService, StoreService, OwnersDataSource],
+  providers: [OwnerService, PatientService, StoreService, OwnersDataSource, SidenavService],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
