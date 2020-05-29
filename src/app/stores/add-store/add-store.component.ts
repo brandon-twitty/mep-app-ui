@@ -4,8 +4,10 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {StoreService} from "../../shared/services/store.service";
 import {Store} from "..";
 import {Owner} from "../../owners/create-owner/_models/owner";
-import {AcuityApiService} from "../../../../../patient/src/app/shared/acuity-api.service";
+
 import {Appointment} from "../../shared/models/appointment";
+import {QrCode} from "../../shared/models/qr-code";
+import {QrCodesService} from "../../shared/services/qr-codes.service";
 
 @Component({
   selector: 'app-add-store',
@@ -16,6 +18,7 @@ import {Appointment} from "../../shared/models/appointment";
 export class AddStoreComponent implements OnInit {
   storeForm: FormGroup;
   newStore: Store = new Store;
+  newQrCode: QrCode;
   appointments: Appointment[];
   appointment = new Appointment();
   @Input() index: number;
@@ -23,7 +26,7 @@ export class AddStoreComponent implements OnInit {
   @Output() deleteStore: EventEmitter<number> = new EventEmitter();
 
 
-  constructor(private acuityApiService: AcuityApiService, private fb: FormBuilder, private router: Router, private storeService: StoreService, private activeRoute: ActivatedRoute, private ngZone: NgZone) { }
+  constructor(private qrCodesService: QrCodesService, private fb: FormBuilder, private router: Router, private storeService: StoreService, private activeRoute: ActivatedRoute, private ngZone: NgZone) { }
 
   ngOnInit(): void {
     console.log('storeOwnerId', this.ID);
@@ -50,6 +53,7 @@ export class AddStoreComponent implements OnInit {
       onlyself: true
     })
   }
+
   submitStoreForm(){
     this.newStore = this.storeForm.value;
     this.newStore.ID = this.storeForm.controls.storePhoneNumber.value;
@@ -61,8 +65,21 @@ export class AddStoreComponent implements OnInit {
 
     return this.newStore;
   }
+  generateQrCode(){
+    this.newQrCode.access_token = "WaIHit69s5B0vZ6nR5s6yqdZZCHllTV1LTf2cPEg1BVypuqTPJHnVJ77unoLD23Q";
+    this.newQrCode.qr_code_text = "https://medical.cards/?storeId=" + this.newStore.storePhoneNumber;
+    this.newQrCode.image_format = "PNG";
+    this.newQrCode.image_width = 500;
+    this.newQrCode.download = false;
+    this.qrCodesService.createQrCode(this.newQrCode).subscribe(
+      data => {
+        console.log(data)
+      }
+    )
+  }
   saveStore() {
     this.newStore.createdDate = new Date();
+    this.generateQrCode();
     this.storeService.createStore(this.newStore)
       .subscribe(data => {
         console.log(this.newStore);
@@ -90,11 +107,5 @@ export class AddStoreComponent implements OnInit {
   delete() {
     this.deleteStore.emit(this.index);
   }
-  getAppt1(){
-    this.appointments = [];
-   this.acuityApiService.getAppointments().subscribe((data:[])=> {
-     console.log(data);
-     this.appointments = data;
-    })
-  }
+
 }
