@@ -76,6 +76,7 @@ export class CreateOwnerComponent implements OnInit, OnDestroy {
   saveOwner() {
   this.newOwner = this.ownerForm.value;
     this.newOwner.ID = this.ownerForm.controls.OwnersPhoneNumber.value;
+    this.newOwner.createdDate = new Date();
     this.ownerService.createOwner(this.newOwner)
       .subscribe(data => {
         console.log(data);

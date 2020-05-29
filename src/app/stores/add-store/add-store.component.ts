@@ -4,6 +4,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {StoreService} from "../../shared/services/store.service";
 import {Store} from "..";
 import {Owner} from "../../owners/create-owner/_models/owner";
+import {AcuityApiService} from "../../../../../patient/src/app/shared/acuity-api.service";
+import {Appointment} from "../../shared/models/appointment";
 
 @Component({
   selector: 'app-add-store',
@@ -14,12 +16,14 @@ import {Owner} from "../../owners/create-owner/_models/owner";
 export class AddStoreComponent implements OnInit {
   storeForm: FormGroup;
   newStore: Store = new Store;
+  appointments: Appointment[];
+  appointment = new Appointment();
   @Input() index: number;
   @Input() ID: any;
   @Output() deleteStore: EventEmitter<number> = new EventEmitter();
 
 
-  constructor(private fb: FormBuilder, private router: Router, private storeService: StoreService, private activeRoute: ActivatedRoute, private ngZone: NgZone) { }
+  constructor(private acuityApiService: AcuityApiService, private fb: FormBuilder, private router: Router, private storeService: StoreService, private activeRoute: ActivatedRoute, private ngZone: NgZone) { }
 
   ngOnInit(): void {
     console.log('storeOwnerId', this.ID);
@@ -34,6 +38,7 @@ export class AddStoreComponent implements OnInit {
     storeOwnerId: [''],
     storeContactName: [''],
     storeAddress: [''],
+    city: [''],
     storePhoneNumber: [''],
     storeEmail: [''],
     storeCommissionRate: ['']
@@ -48,6 +53,7 @@ export class AddStoreComponent implements OnInit {
   submitStoreForm(){
     this.newStore = this.storeForm.value;
     this.newStore.ID = this.storeForm.controls.storePhoneNumber.value;
+    this.newStore.storeOwnerId = this.ID;
     console.log(this.newStore);
 
       this.saveStore();
@@ -55,7 +61,16 @@ export class AddStoreComponent implements OnInit {
 
     return this.newStore;
   }
-  saveStore(){
+  saveStore() {
+    this.newStore.createdDate = new Date();
+    this.storeService.createStore(this.newStore)
+      .subscribe(data => {
+        console.log(this.newStore);
+        this.storeForm.reset();
+
+      });
+  }
+  /*saveStore(){
     Object.keys(this.ID).some(key => {
       let ownerId = this.ID[key];
       console.log('Object Id = ', ownerId);
@@ -71,9 +86,15 @@ export class AddStoreComponent implements OnInit {
     } else {
       console.log('storeOwnerId was null')
     }
-
-  }
+  }*/
   delete() {
     this.deleteStore.emit(this.index);
+  }
+  getAppt1(){
+    this.appointments = [];
+   this.acuityApiService.getAppointments().subscribe((data:[])=> {
+     console.log(data);
+     this.appointments = data;
+    })
   }
 }

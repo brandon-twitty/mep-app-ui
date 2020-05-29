@@ -8,7 +8,7 @@ export class Patient implements Deserializable{
   patientPhoneNumber: number;
   patientEmail: string;
   appointmentDate: string;
-  stripeConfirmationId: string;
+  completed: string;
   dateCreated: Date;
 
   deserialize(input: any): this {

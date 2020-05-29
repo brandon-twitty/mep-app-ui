@@ -30,7 +30,7 @@ export class ListOwnersComponent implements OnInit {
   dataSource: MatTableDataSource<Owner>;
   owners: Owner[];
   selectedOwner: Owner = new Owner();
-  displayedColumns = ['ID', 'OwnersFirstName', 'OwnersLastName', 'OwnersPhoneNumber', 'OwnersEmailAddress', 'action'];
+  displayedColumns = ['ID', 'OwnersFirstName', 'OwnersLastName', 'OwnersPhoneNumber', 'OwnersEmailAddress', 'totalOwedToOwner','totalPaidToOwners', 'action'];
   //ownerDataSource: OwnersDataSource;
   constructor(public ownersService: OwnerService,  private http: HttpClient, private router: Router) {
     this.ownersService.getOwners().subscribe(data => {

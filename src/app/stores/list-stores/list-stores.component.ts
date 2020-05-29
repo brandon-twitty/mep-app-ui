@@ -23,6 +23,7 @@ export class ListStoresComponent implements OnInit {
   StoresData: any [];
   dataSource: MatTableDataSource<Store>;
   ownerStoreId: any;
+  storeCount: number;
 
   public store = [];
   displayedColumns = ['storeContactName', 'storeAddress', 'storePhoneNumber', 'storeEmail','totalScanned','totalBooked','moneyOwed','moneyPaid', 'action'];
@@ -31,9 +32,10 @@ export class ListStoresComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(JSON.parse(this.ID.ID));
-   this.ownerStoreId = this.ID.ID;
+    console.log(this.ID);
+   this.ownerStoreId = this.ID;
    this.getListOfOwnersStores(this.ownerStoreId);
+   this.storeCount = this.StoresData.length;
   }
   getListOfOwnersStores(ownerStoreId){
     this.storeService.getStoreByOwner(ownerStoreId).subscribe((data:[]) => {
@@ -45,6 +47,9 @@ export class ListStoresComponent implements OnInit {
       }, 0)
     });
 }
+  countStores(){
+    console.log();
+  }
   gotoStoreDetails(url, id){
     this.router.navigate([url, id]).then((e)=> {
       if(e) {

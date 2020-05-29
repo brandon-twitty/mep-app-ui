@@ -41,8 +41,8 @@ export class OwnerService {
   }
 
   public getOwnerById(ID): Observable<Owner> {
-    console.log(`${ID.ID}`);
-    return this.http.get<Owner>(`${this.ownerApi}/get-owner/${ID.ID}`, httpOptions).pipe(
+    console.log(`${ID}`);
+    return this.http.get<Owner>(`${this.ownerApi}/get-owner/${ID}`, httpOptions).pipe(
       tap(_=> console.log(Owner))
     );
 

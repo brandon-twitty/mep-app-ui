@@ -14,13 +14,14 @@ export class Owner  {
   OwnersCommissionRate: number;
   ReceivingAgentCommissionRate: number;
   agentId: number;
+  createdDate: any;
   //agents: ReceivingAgent [];
   //stores: Store [];
  // patients: Patient [];
 
 
  constructor(OwnersFirstName?: string, OwnersLastName?: string, ID?: number, OwnersPhoneNumber?: number, OwnersEmailAddress?: string, OwnersPaymentMethod?: string, OwnersCommissionRate?: number,
-              ReceivingAgentCommissionRate?: number, agentId?: number, agents?: ReceivingAgent[], stores?: Store[], patients?: Patient[]) {
+              ReceivingAgentCommissionRate?: number, agentId?: number, createdDate?: any, agents?: ReceivingAgent[], stores?: Store[], patients?: Patient[]) {
     this.OwnersFirstName = OwnersFirstName;
     this.OwnersLastName = OwnersLastName;
     this.ID = OwnersPhoneNumber;
@@ -30,6 +31,7 @@ export class Owner  {
     this.OwnersCommissionRate = OwnersCommissionRate;
     this.ReceivingAgentCommissionRate = ReceivingAgentCommissionRate;
     this.agentId = agentId;
+    this.createdDate = createdDate;
     //this.agents = agents;
     //this.stores = stores;
     //this.patients = patients;
@@ -45,4 +47,5 @@ export class Owner  {
   getFullName() {
     return this.OwnersFirstName + ' ' + this.OwnersLastName;
   }
+
 }

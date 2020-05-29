@@ -11,6 +11,10 @@
           <input class="mb-3 form-control" formControlName="storeAddress" placeholder="Store Address">
       </td>
       <td>
+        <label>City</label>
+        <input class="mb-3 form-control" formControlName="city" placeholder="city">
+      </td>
+      <td>
         <label>Phone Number</label>
          <input class="mb-3 form-control" formControlName="storePhoneNumber" placeholder="Store Phone Number">
       </td>
@@ -25,6 +29,8 @@
     </tr>
   </table>
   <button class="btn btn-primary" type="submit">Add Store</button>
+
   <pre>Player Form Status: <span class="status">{{storeForm.status}}</span></pre>
 </form>
+  <button class="btn btn-primary" (click)="getAppt1()">Add Store</button>
 </app-card>
